@@ -7,6 +7,6 @@ services:
     env_file:
       - .env
     networks:
-      git- some-network
+      - some-network
 networks:
   some-network:
