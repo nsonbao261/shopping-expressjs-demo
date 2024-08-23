@@ -63,12 +63,12 @@ CREATE TABLE "Cart" (
 
 -- CreateTable
 CREATE TABLE "Orders" (
-    "orderId" TEXT NOT NULL,
+    "orderId" SERIAL NOT NULL,
     "description" TEXT,
     "paymentMethod" TEXT NOT NULL,
     "paymentAmount" INTEGER NOT NULL,
     "status" "OrderStattus" NOT NULL DEFAULT 'Pending',
-    "paymentTime" TEXT NOT NULL,
+    "paymentTime" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE "OrderDetails" (
     "productId" INTEGER NOT NULL,
     "quantity" INTEGER NOT NULL,
     "amount" INTEGER NOT NULL,
-    "orderId" TEXT NOT NULL,
+    "orderId" INTEGER NOT NULL,
 
     CONSTRAINT "OrderDetails_pkey" PRIMARY KEY ("orderDetailId")
 );
