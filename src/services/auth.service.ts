@@ -12,10 +12,10 @@ class AuthService {
 
     async signUp(dto: registerDto) {
         const { password, ...rest } = dto;
-        const encryptedPassword = await hashPassword(password);
+        const encryptedPassword = password ? await hashPassword(password as string) : null;
         return this.prisma.users.create({
             data: {
-                password: encryptedPassword as string,
+                password: password ? encryptedPassword as string : null,
                 ...rest,
             },
             select: {
@@ -52,6 +52,12 @@ class AuthService {
             },
             data
         })
+    }
+
+    async getGoogleUserData(access_token: any) {
+        const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+        const data = await response.json();
+        return data;
     }
 }
 

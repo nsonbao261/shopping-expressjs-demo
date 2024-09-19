@@ -14,10 +14,10 @@ export default class CartRouter {
 
     protected routes() {
         this.router.get("/cart-details", jwtAuthorization, this.cartController.findCartByUserId);
-        this.router.get("/", this.cartController.findAllCart);
-        this.router.post("/", this.cartController.createCart);
-        this.router.get("/:cartId", this.cartController.findCartById);
-        this.router.put("/:cartId", this.cartController.updateCart);
-        this.router.delete("/:cartId", this.cartController.deleteCart);
+        this.router.get("/", jwtAuthorization, this.cartController.findAllCart);
+        this.router.post("/", jwtAuthorization, this.cartController.createCart);
+        this.router.get("/:cartId", jwtAuthorization, this.cartController.findCartById);
+        this.router.put("/:cartId", jwtAuthorization, this.cartController.updateCart);
+        this.router.delete("/:cartId", jwtAuthorization, this.cartController.deleteCart);
     }
 }

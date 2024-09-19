@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { OrderService } from "../services/order.service";
-import { getUserId } from "../utils";
 import AuthService from "../services/auth.service";
 import { createOrederDto } from "../dto/order/create-order.dto";
 import { CartService } from "../services/cart.service";
@@ -18,8 +17,7 @@ export class OrderController {
 
     public createOrder = async (req: Request, res: Response) => {
         try {
-            const accessToken = req.header('Authorization')?.replace('Bearer ', '') as string;
-            const userId = getUserId(accessToken);
+            const userId = res.locals.user.userId;
 
             const user = await this.authService.findUserById(userId);
 

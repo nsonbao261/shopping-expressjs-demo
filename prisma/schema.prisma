@@ -19,7 +19,7 @@ model Users {
   lastName  String?
   email     String    @unique
   gender    String?
-  password  String
+  password  String?
   avatar    String?
   role      Role
   carts     Cart[]
@@ -67,7 +67,7 @@ model Cart {
 }
 
 model Orders {
-  orderId       Int        @id @default(autoincrement())
+  orderId       Int            @id @default(autoincrement())
   description   String?
   paymentMethod String
   paymentAmount Int
@@ -81,7 +81,7 @@ model Orders {
 }
 
 model OrderDetails {
-  orderDetailId Int    @id @default(autoincrement())
+  orderDetailId Int @id @default(autoincrement())
   productId     Int
   quantity      Int
   amount        Int

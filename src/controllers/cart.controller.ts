@@ -1,7 +1,6 @@
 import { Request, response, Response } from "express";
 import { CartService } from "../services/cart.service";
 import { ProductService } from "../services/product.service";
-import { getUserId } from "../utils";
 import AuthService from "../services/auth.service";
 import { CreateCartDto } from "../dto/cart/create-cart.dto";
 import { UpdateCartDto } from "../dto/cart/update-cart.dto";
@@ -28,8 +27,7 @@ export class CartController {
                 })
             }
 
-            const accessToken = req.header('Authorization')?.replace('Bearer ', '') as string;
-            const userId = getUserId(accessToken);
+            const userId = res.locals.user.userId;
 
             const user = await this.authService.findUserById(userId);
 
@@ -58,6 +56,7 @@ export class CartController {
                 message: "Cart added",
             })
         } catch (error) {
+            console.log(error);
             return res.status(500).json({
                 message: "Internal server error",
             })
@@ -152,10 +151,9 @@ export class CartController {
     public findCartByUserId = async (req: Request, res: Response) => {
         try {
 
-            const accessToken = req.header('Authorization')?.replace('Bearer ', '') as string;
-            const userId = getUserId(accessToken);
+            const userId = res.locals.user.userId;
 
-            
+
             const user = await this.authService.findUserById(userId);
 
             if (!user) {

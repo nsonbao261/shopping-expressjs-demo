@@ -15,7 +15,11 @@ export default class AuthRouter {
     protected routes(): void {
         this.router.post('/signup', this.authController.signUp)
         this.router.post('/login', this.authController.login)
+
+        this.router.post('/google', this.authController.loginWithGoogle)
+        this.router.get('/google/callback', this.authController.googleCallback);
+
         this.router.post('/change-password', jwtAuthorization, this.authController.changePassword)
-        this.router.get('/profile', jwtAuthorization ,this.authController.getUserProfile)
+        this.router.get('/profile', jwtAuthorization, this.authController.getUserProfile)
     }
 }
