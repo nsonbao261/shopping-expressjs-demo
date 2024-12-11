@@ -95,12 +95,12 @@ export class AuthController {
 
     public changePassword = async (req: Request, res: Response) => {
         try {
-            const { currentPassword, confirmPassword, newPassword } = req.body;
-            if (currentPassword != confirmPassword) {
-                res.status(404).json({
-                    message: "Passwords do not match"
-                })
-            }
+            const { currentPassword, newPassword } = req.body;
+            // if (currentPassword != confirmPassword) {
+            //     res.status(404).json({
+            //         message: "Passwords do not match"
+            //     })
+            // }
             // const accessToken = req.header('Authorization')?.replace('Bearer ', '') as string;
             // const userId = getUserId(accessToken);
 
@@ -112,22 +112,24 @@ export class AuthController {
                     message: "User not found",
                 })
             }
+
+            const isPasswordValid = await comparePassword(currentPassword, user?.password as string)
+            if (!isPasswordValid) {
+                return res.status(404).json({
+                    message: "Password wrong",
+                })
+            }
+
             const encryptedPassword = await hashPassword(newPassword);
             const dto: updateUserDto = { password: encryptedPassword }
             const updateUser = await this.authService.updateUser(userId, dto);
-            const isPasswordValid = await comparePassword(newPassword, updateUser.password as string)
-            if (!isPasswordValid) {
-                return res.status(404).json({
-                    message: "Password updated failed",
-                })
-            }
+
             return res.status(200).json({
                 message: "Password updated successfully",
             })
         } catch (error) {
             return res.status(500).json({
                 message: "Server Error",
-                error
             })
         }
     }

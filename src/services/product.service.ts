@@ -23,7 +23,7 @@ export class ProductService {
                 description: true,
                 maxPlayer: true,
                 minPlayer: true,
-                duration :true,
+                duration: true,
                 imageUrl: true
             }
         })
@@ -49,7 +49,7 @@ export class ProductService {
     }
 
     async updateProduct(id: number, dto: UpdateProductDto) {
-        return this.prisma.products.update({
+        return this.prisma.products.update({ 
             data: { ...dto },
             where: {
                 productId: id,

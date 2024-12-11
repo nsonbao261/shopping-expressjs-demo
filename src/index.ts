@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
+import swaggerUi from 'swagger-ui-express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from "cookie-parser";
@@ -10,6 +11,7 @@ import UploadRouter from "./routes/upload.router";
 import CartRouter from "./routes/cart.router";
 import OrderRouter from "./routes/order.router";
 import PaymentRouter from "./routes/payment.router";
+import { swaggerSpecs } from "./config";
 
 dotenv.config();
 
@@ -22,16 +24,18 @@ app.use(cors({
     credentials: true,
 }));
 
-app.use(function (req, res, next) {
-    res.header('Content-Type', 'application/json;charset=UTF-8')
-    res.header('Access-Control-Allow-Credentials', 'true')
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    )
-    next()
-})
-app.use(cookieParser());
+// app.use(function (req, res, next) {
+//     res.header('Content-Type', 'application/json;charset=UTF-8')
+//     res.header('Access-Control-Allow-Credentials', 'true')
+//     res.header(
+//         'Access-Control-Allow-Headers',
+//         'Origin, X-Requested-With, Content-Type, Accept'
+//     )
+//     next()
+// })
+
+
+// app.use(cookieParser());
 
 
 app.use(express.json());
@@ -45,5 +49,11 @@ app.use('/api/cart', new CartRouter().router);
 app.use('/api/upload', new UploadRouter().router);
 app.use('/api/order', new OrderRouter().router);
 app.use('/api/payment', new PaymentRouter().router);
+
+app.use(
+    '/api/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpecs, { explorer: true })
+);
 
 app.listen(PORT, () => console.log(`App is listening on ${PORT}`));

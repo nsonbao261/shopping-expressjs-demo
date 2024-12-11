@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as firebase from '../utils/firebaseInitialize';
+import * as firebase from '../config';
 
 export class UploadControler {
     public uploadFile = async (req: Request, res: Response) => {

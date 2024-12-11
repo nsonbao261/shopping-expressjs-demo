@@ -167,7 +167,7 @@ export class CartController {
                 return sum + current.product.price * current.cartQuantity;
             }, 0)
             const totalQuantity = carts.reduce((sum, current) => {
-                return sum + current.cartQuantity;
+                return sum + current.cartQuantity; 
             }, 0)
             return res.status(200).json({
                 message: "Found cart detail successfully",
